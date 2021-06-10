@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+
+</head>
+<body>
+
+
+<section id="spinner-upw">
+
+    <div class="spinner-upw__container">
+
+        <a class="spinner-upw__exit" href="#">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" class="svg-inline--fa fa-times fa-w-11" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512"><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg>
+        </a>
+
+        <div class="spinner-upw__main"></div>
+
+        <div class="spinner-upw__center">
+            <form class="spinner-upw__form" action="#">
+            <span class="spinner-upw__form_cta">
+                spin to win
+            </span>
+                <input class="spinner-upw__input" type="email" placeholder="Enter your email" />
+                <input type="submit" class="spinner-upw__btn" value="Spin it!" />
+            </form>
+        </div>
+
+        <div class="spinner-upw__arrow" >
+            <img class="spinner-upw__arrow_img"  src="assets/arrow.png" alt="arrow for spinner" />
+        </div>
+
+    </div>
+
+</section>
+
+
+<script>
+    document.querySelector('#spinner-upw').addEventListener('click', ()=> {
+      new Promise((res)=>{
+            document.querySelector('.spinner-upw__main').style.transform = `rotate(${Math.random() * 1500}deg)`;
+            document.querySelector('.spinner-upw__arrow').style.transform = `translateX(30%) translateY(-50%)`;
+            setTimeout(()=>{
+                res()
+            },500)
+        })
+        .then(()=>{
+            document.querySelector('.spinner-upw__arrow').style.transform = `translateX(0px) translateY(-50%)`;
+        })
+
+
+    })
+
+</script>
+
+</body>
+</html>

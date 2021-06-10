@@ -1,0 +1,167 @@
+@font-face {
+    font-family: Gotham; /* Имя шрифта */
+    src: url(fonts/Gotham.otf); /* Путь к файлу со шрифтом */
+}
+
+#spinner-upw {
+    --color-red: #ee051d;
+    --color-white: #fff;
+    --transition: .8s;
+    --font-primary: Gotham;
+    --font-size-title: 4vw;
+    --font-size-regular: 3.5vw;
+}
+
+#spinner-upw {
+    position: fixed;
+    top:0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #000000a3;
+    font-family: var(--font-primary);
+    overflow: scroll;
+}
+
+#spinner-upw .spinner-upw__container {
+    width: 80vw;
+    height: 80vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+}
+
+#spinner-upw .spinner-upw__container:before {
+    content: '';
+    background: var(--color-white);
+    position: absolute;
+    top:20%;
+    right: 20%;
+    bottom: 20%;
+    left: 20%;
+    z-index: 0;
+}
+
+#spinner-upw .spinner-upw__main {
+    position: absolute;
+    top:0;
+    right: 0;
+    bottom: 0;
+    left:0;
+    background: url("assets/main-spinner.png");
+    background-size: 100%;
+    z-index: 5;
+    transition: var(--transition);
+}
+
+#spinner-upw .spinner-upw__arrow {
+    width: 16%;
+    height: 16%;
+    position: absolute;
+    top:50%;
+    transform: translateY(-50%);
+    right: 0;
+    z-index: 6;
+    transition: var(--transition);
+}
+
+#spinner-upw .spinner-upw__arrow .spinner-upw__arrow_img {
+    width: 100%;
+    height: 100%;
+}
+
+#spinner-upw .spinner-upw__center {
+    width: 65%;
+    height: 65%;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translateY(-50%) translateX(-50%);
+    display: grid;
+    grid-template-columns: 1fr;
+    text-align: center;
+    z-index: 10;
+}
+
+#spinner-upw .spinner-upw__center .spinner-upw__form {
+    position: relative;
+}
+
+#spinner-upw .spinner-upw__form .spinner-upw__form_cta {
+    text-transform: uppercase;
+    font-size: var(--font-size-title);
+    font-weight: 800;
+    display: block;
+    margin-top: 28.5%;
+}
+
+#spinner-upw .spinner-upw__form .spinner-upw__input {
+    width: 68.5%;
+    display: block;
+    margin: 7.5% auto 0;
+    border: none;
+    border-bottom: 2px solid black;
+    padding-bottom: 2%;
+    font-size: var(--font-size-regular);
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+#spinner-upw .spinner-upw__form .spinner-upw__btn {
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    padding: 2% 5.5%;
+    background-color: var(--color-red);
+    border-color: var(--color-white);
+    color: var(--color-white);
+    margin: 4% auto auto;
+    font-size: var(--font-size-title);
+    border-width: 1px;
+    letter-spacing: 1px;
+    border-radius: 4px;
+}
+
+#spinner-upw .spinner-upw__exit {
+    width: calc( var(--font-size-title) * 1.25 );
+    height: calc( var(--font-size-title) * 1.25 );
+    border-radius: 100%;
+    text-decoration: none;
+    position: absolute;
+    top:0;
+    right: 0;
+    background-color: var(--color-white);
+    display: flex;
+    place-content: center;
+    opacity: .25;
+    z-index: 1000;
+}
+
+#spinner-upw .spinner-upw__exit svg {
+    width: calc( var(--font-size-title) * .65 );
+}
+
+@media ( min-width: 768px ) {
+    #spinner-upw {
+        --font-size-title: 1.45vw;
+        --font-size-regular: 1.45vw;
+    }
+
+    #spinner-upw .spinner-upw__container {
+        width: 30vw;
+        height: 30vw;
+    }
+
+    #spinner-upw .spinner-upw__center {
+        width: 60%;
+        height: 60%;
+    }
+
+    #spinner-upw .spinner-upw__form .spinner-upw__input{
+        margin: 13.9% auto 0;
+    }
+
+
+}
