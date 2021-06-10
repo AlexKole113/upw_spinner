@@ -12,7 +12,7 @@
 <body>
 
 
-<section id="spinner-upw">
+<section style="display:none" id="spinner-upw">
 
     <div class="spinner-upw__container">
 
@@ -53,10 +53,12 @@
         .then(()=>{
             document.querySelector('.spinner-upw__arrow').style.transform = `translateX(0px) translateY(-50%)`;
         })
-
-
     })
 
+    window.addEventListener('load',()=>{
+        console.log('load')
+        document.querySelector('#spinner-upw').removeAttribute('style');
+    })
 </script>
 
 </body>
