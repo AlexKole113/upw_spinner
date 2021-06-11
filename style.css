@@ -32,6 +32,14 @@
     transform: translateY(-50%) translateX(-50%);
 }
 
+#spinner-upw #canvas {
+    position: absolute;
+    top:0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
 #spinner-upw .spinner-upw__container:before {
     content: '';
     background: var(--color-white);
