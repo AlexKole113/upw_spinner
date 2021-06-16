@@ -16,7 +16,7 @@ module.exports = function (env, argv) {
     },
     output: {
       path: path.resolve( __dirname, 'dist'),
-      filename: `${ASSETS_DIR}/js/[name].[contenthash].js`,
+      filename: `${ASSETS_DIR}/js/[name].js`,
       publicPath: '/',
       assetModuleFilename: `${ASSETS_DIR}/resources/[name][ext]`,
     },
@@ -72,7 +72,7 @@ module.exports = function (env, argv) {
     plugins: [
       new CleanWebpackPlugin(),
       new MiniCssExtractPlugin({
-        filename: `${ASSETS_DIR}/css/[name].[contenthash].css`,
+        filename: `${ASSETS_DIR}/css/[name].css`,
       }),
       new HtmlWebpackPlugin({
         inject: true,
