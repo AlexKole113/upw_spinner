@@ -8,60 +8,73 @@ import {useEffect,useState} from "react";
 import APIdummy from "../../_mock_";
 
 import style from '@/styles/style.css'
-import rotateRandomizer from "@/components/GameLogic/rotateRandomizer";
+
 import checkWinner from "@/components/GameLogic/checkWinner";
+import {setFewRandomResults,getNextResult} from "@/components/GameLogic/getFewRandomResults";
 
-
+let getNextRandomValue:Generator;
 
 export default ({gameID}:{gameID:string|null}) => {
-    const [ mainState, setMainState ] = useState({ gameID, active: false, attempts: 3, prize: null, angle:0, gameWasStarted: false, loading: false, success:true, error:false })
+    const [ mainState, setMainState ] = useState({ gameID, active: false, attempts: 3, prize: null, angle:0, results:[0], gameWasStarted: false, loading: false, success:true, error:false })
 
     useEffect(() => {
         window.addEventListener('mouseout', (e) => {
             if( e.relatedTarget === null ) setMainState((prevState)=>({...prevState, active: true}))
         })
+        if( mainState.results.length  < 3 ){
+            const results = setFewRandomResults(3)
+            getNextRandomValue = getNextResult( results )
+            setMainState((prevState)=>({...prevState, results }));
+        }
     },[]);
 
     //Send Impression after show spinner
     useEffect(()=>{
         if(mainState.active && gameID) {
             APIdummy.sendImpression( gameID )
-            .then(( response )=>{
-                console.log(response)
-            })
-            .catch((e)=>{
-                setMainState((prevState)=>({
-                    ...prevState,
-                    error: e,
-                }))
-            })
+                .then(( response )=>{
+                    console.log(response)
+                })
+                .catch((e)=>{
+                    setMainState((prevState)=>({
+                        ...prevState,
+                        error: e,
+                    }))
+                })
         }
 
     },[mainState.active])
 
     useEffect(() => {
         if(mainState.gameWasStarted && mainState.attempts > 0) {
-            const randomAngle = rotateRandomizer( 1080, 1440 );
+
+            console.log(mainState.results)
+
+            const {value:randomAngle} = getNextRandomValue.next();
+            console.log(randomAngle)
             setMainState((prevState)=>({...prevState, angle: randomAngle}));
 
+            console.log(randomAngle);
+
             checkWinner( randomAngle, 300 )
-            .then(( prize ) => {
-                if ( typeof prize === 'string' ) {
-                    //@ts-ignore
-                    setMainState((prevState) => ({
-                        ...prevState,
-                        prize,
-                        attempts: prevState.attempts -= 1,
-                    }))
-                }
-            })
+                .then(( prize ) => {
+                    if ( typeof prize === 'string' ) {
+                        //@ts-ignore
+                        setMainState((prevState) => ({
+                            ...prevState,
+                            prize,
+                            gameWasStarted: false,
+                            attempts: prevState.attempts -= 1,
+                        }))
+                    }
+                })
 
 
         }
     },[mainState.gameWasStarted])
 
     const closeAndReset = () => {
-        setMainState({ gameID, active: false, attempts: 3, prize: null, angle:0, gameWasStarted: false, loading: false, success:true, error:false })
+        setMainState({ gameID, active: false, attempts: 3, prize: null, angle:0, results:[0], gameWasStarted: false, loading: false, success:true, error:false })
     }
 
     const sendEmail = ( value:string ) => {
@@ -73,10 +86,10 @@ export default ({gameID}:{gameID:string|null}) => {
             .then(()=>{
                 setMainState((prevState)=>({
                     ...prevState,
-                   error: false,
-                   loading: false,
-                   success: true,
-                   gameWasStarted: true,
+                    error: false,
+                    loading: false,
+                    success: true,
+                    gameWasStarted: true,
                 }))
             })
             .catch((e)=>{
@@ -91,8 +104,8 @@ export default ({gameID}:{gameID:string|null}) => {
         <section className={`${style.spinnerUPW}  ${ (!mainState.active) ? style.displayNONE : '' }`} >
             { (mainState.prize) ?  <BackGround /> : '' }
             <div className={style.spinnerUpwContainer}>
-               <CloseBtn action={closeAndReset} />
-               <Spinner rotate={mainState.angle} />
+                <CloseBtn action={closeAndReset} />
+                <Spinner rotate={mainState.angle} />
                 {
                     ( !mainState.prize )
                         ? (<div className={style.spinnerUpwCenter}>
@@ -100,23 +113,24 @@ export default ({gameID}:{gameID:string|null}) => {
                                 <div className={style.errorMessageGroup}>{mainState.error}</div> :
                                 <Form mainText={ 'spin to win' } inputPlaceholder={ `Enter your email` } btnText={ `Spin it!` } action={sendEmail} appState={mainState} />
                             }
-                           </div>)
+                        </div>)
                         : (<div className={`${style.spinnerUpwCenter} ${style.spinnerUpwPrizeGroup}`} >
-                             <div className={style.prizeTitle}>
-                                 <span className={style.prizeTitlePre}>{`Congratulations !!!`}</span>
-                                 <span className={style.prizeTitlePre}>{`You won: `}</span>
-                                 <span className={style.prizeTitleMain}>{ mainState.prize }</span>
-                             </div>
-                             <div className={style.prizeAttempts}>
-                                 {`You can try ${mainState.attempts} more times`}
-                             </div>
-                             <div className={style.prizeBtn}>
-                                 <a href="#">get prize</a>
-                                 <a href="#">try</a>
-                             </div>
-                          </div>)
+                            <div className={style.prizeTitle}>
+                                <span className={style.prizeTitlePre}>{`Congratulations !!!`}</span>
+                                <span className={style.prizeTitlePre}>{`You won: `}</span>
+                                <span className={style.prizeTitleMain}>{ mainState.prize }</span>
+                            </div>
+                            <div className={style.prizeAttempts}>
+                                {`You can try ${mainState.attempts} more times`}
+                            </div>
+                            <div className={style.prizeBtn}>
+                                <a onClick={(e)=>{ e.preventDefault(); closeAndReset(); }} href="#">get prize</a>
+                                { (mainState.attempts > 0) ? <a onClick={(e)=>{ e.preventDefault(); setMainState((pS)=>({...pS,gameWasStarted: true})); }} href="#">try</a>: '' }
+
+                            </div>
+                        </div>)
                 }
-               <Arrow />
+                <Arrow gameState={mainState} />
             </div>
         </section>
     );

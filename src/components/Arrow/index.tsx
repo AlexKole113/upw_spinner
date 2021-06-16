@@ -1,8 +1,8 @@
 import style from '@/styles/style.css'
-const Arrow = () => {
+const Arrow = ({gameState}:{[key:string]:any}) => {
     return(
         <div className={style.spinnerUpwArrow}>
-            <img className={style.spinnerUpwArrowImg} src='assets/arrow.png' alt="arrow for spinner"/>
+            <img className={`${style.spinnerUpwArrowImg} ${ ( gameState.gameWasStarted)? style.inGame : ''}`} src='assets/arrow.png' alt="arrow for spinner"/>
         </div>
     )
 }

@@ -126,7 +126,7 @@ class Battery
     }
 }
 
-class Fireworks
+export default class Fireworks
 {
     constructor({selector}) {
         this.canvas = window.document.querySelector( selector );
@@ -185,9 +185,4 @@ class Fireworks
 }
 
 
-const startShow = ({selector}) => {
-    const startShow = new Fireworks({selector});
-    startShow.run()
-}
-export default startShow;
 

@@ -4,7 +4,7 @@ class APIdummy {
     // static SUBMISSIONS = API.HOST + `submissions`;
 
    static sendImpression = ( gameId: string ) => {
-        const randomNetworkError = ( Math.random() > .99 ) ? true : false;
+        const randomNetworkError = ( Math.random() > 1 ) ? true : false;
 
         return new Promise(( resolve, reject )=>{
             setTimeout(() => {
@@ -22,7 +22,7 @@ class APIdummy {
     }
 
     static sendLead = ( gameId:string, email:string ) => {
-        const randomNetworkError = ( Math.random() > .99 ) ? true : false;
+        const randomNetworkError = ( Math.random() > 1 ) ? true : false;
         return new Promise(( resolve, reject )=>{
             setTimeout(() => {
                 if(!randomNetworkError ){

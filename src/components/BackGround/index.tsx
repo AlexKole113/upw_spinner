@@ -1,10 +1,16 @@
 import style from '@/styles/style.css'
-import startShow from "@/components/BackGround/components/canvas";
 import {useEffect} from "react";
+import Fireworks from "@/components/BackGround/components/canvas";
 const BackGround = () => {
 
+
     useEffect(()=>{
-        startShow({selector:`#canvas-upw`})
+        let show:any = new Fireworks({selector:`#canvas-upw`});
+        show.run();
+        return () => {
+            show.clear();
+            show = null;
+        }
     },[])
 
 
