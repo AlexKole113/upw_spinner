@@ -6,7 +6,7 @@ const InputGroup = ({ placeholder, btnText, formState, action, appState }:{place
     return(
         <>
             <div className={style.spinnerUpwInputGroup}>
-                <input onChange={(e)=>{action(e)}} className={style.spinnerUpwInput} type="text" placeholder={placeholder} value={formState} />
+                <input onChange={(e)=>{action(e)}} className={style.spinnerUpwInput} type="email" placeholder={placeholder} value={formState} />
 
                 <div className={style.spinnerUpwBtnSlot}>
                     { ( appState.loading) ? <img className={style.spinnerUpwInputGroupLoader} src='assets/preloader.gif' /> :  <input type="submit" className={style.spinnerUpwFormBtn} value={btnText} /> }
