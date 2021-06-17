@@ -210,7 +210,7 @@
     font-size: calc( var(--font-size-title) * .5);
 }
 
-.important {
+.importantSpan {
     color: var(--color-red);
     padding: 0 5px;
     font-weight: 800;

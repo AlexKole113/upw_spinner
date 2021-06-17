@@ -4,33 +4,30 @@ import Spinner from "@/components/Spinner";
 import Form from "@/components/Form";
 import Arrow from "@/components/Arrow";
 import {useEffect,useState} from "react";
-
-import APIdummy from "../../_mock_";
-
-import style from '@/styles/style.css'
-
 import checkWinner from "@/components/GameLogic/checkWinner";
 import {setFewRandomResults,getNextResult} from "@/components/GameLogic/getFewRandomResults";
-
+import getInitialState from "@/components/initialState";
 let getNextRandomValue:Generator;
 
-export default ({gameID}:{gameID:string|null}) => {
-    const [ mainState, setMainState ] = useState({ gameID, active: false, attempts: 3, prize: null, angle:0, results:[0], gameWasStarted: false, loading: false, success:true, error:false })
+import APIdummy from "../../_mock_";
+import style from '@/styles/style.css'
 
+
+export default ({gameID}:{gameID:string|null}) => {
+
+    const numberAttempts = 3;
+    const [ mainState, setMainState ] = useState( getInitialState( gameID , numberAttempts ) );
+
+    // add EventListener which start Game
     useEffect(() => {
         window.addEventListener('mouseout', (e) => {
             if( e.relatedTarget === null ) setMainState((prevState)=>({...prevState, active: true}))
         })
-        if( mainState.results.length  < 3 ){
-            const results = setFewRandomResults(3)
-            getNextRandomValue = getNextResult( results )
-            setMainState((prevState)=>({...prevState, results }));
-        }
     },[]);
 
     //Send Impression after show spinner
-    useEffect(()=>{
-        if(mainState.active && gameID) {
+    useEffect(() => {
+        if( mainState.active && gameID ) {
             APIdummy.sendImpression( gameID )
                 .then(( response )=>{
                     console.log(response)
@@ -43,10 +40,17 @@ export default ({gameID}:{gameID:string|null}) => {
                 })
         }
 
-    },[mainState.active])
+    },[mainState.active]);
+
 
     useEffect(() => {
         if(mainState.gameWasStarted && mainState.attempts > 0) {
+
+            if( mainState.attempts === numberAttempts ){
+                const results = setFewRandomResults( numberAttempts );
+                getNextRandomValue = getNextResult( results );
+                setMainState((prevState)=>({...prevState, results }));
+            }
 
             console.log(mainState.results)
 
@@ -73,10 +77,12 @@ export default ({gameID}:{gameID:string|null}) => {
         }
     },[mainState.gameWasStarted])
 
+    //Reset Game and Close PopUp
     const closeAndReset = () => {
-        setMainState({ gameID, active: false, attempts: 3, prize: null, angle:0, results:[0], gameWasStarted: false, loading: false, success:true, error:false })
+        setMainState(() => ({...getInitialState(gameID,numberAttempts)}))
     }
 
+    //Send Email
     const sendEmail = ( value:string ) => {
         if(!mainState.gameID || !value ) return;
 
@@ -101,7 +107,7 @@ export default ({gameID}:{gameID:string|null}) => {
     }
 
     return (
-        <section className={`${style.spinnerUPW}  ${ (!mainState.active) ? style.displayNONE : '' }`} >
+        <section className={`${style.spinnerUPW}  ${ ( !mainState.active ) ? style.displayNONE : '' }`} >
             { (mainState.prize) ?  <BackGround /> : '' }
             <div className={style.spinnerUpwContainer}>
                 <CloseBtn action={closeAndReset} />
@@ -121,7 +127,9 @@ export default ({gameID}:{gameID:string|null}) => {
                                 <span className={style.prizeTitleMain}>{ mainState.prize }</span>
                             </div>
                             <div className={style.prizeAttempts}>
-                                {`You can try ${mainState.attempts} more times`}
+                                <span>{`You can try`}</span>
+                                <span className={style.importantSpan}>{mainState.attempts}</span>
+                                <span>{`more times`}</span>
                             </div>
                             <div className={style.prizeBtn}>
                                 <a onClick={(e)=>{ e.preventDefault(); closeAndReset(); }} href="#">get prize</a>

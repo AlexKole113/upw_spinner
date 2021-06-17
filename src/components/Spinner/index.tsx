@@ -7,9 +7,9 @@ const Spinner = ({rotate}:{rotate:number}) => {
         if(rotate === 0 ){
             setRotateState(0)
         } else {
+            setRotateState(0)
             setRotateState((prevAngle) => prevAngle+=rotate )
         }
-
     },[rotate])
 
     return( <img style={{transform: `rotate(${rotateState}deg)` }} className={style.spinnerUpwMain} src='assets/spinner.png' alt={"spinner"} />)
