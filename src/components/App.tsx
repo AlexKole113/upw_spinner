@@ -77,7 +77,14 @@ export default ({gameID}:{gameID:string|null}) => {
                     .then( r => r.json() )
                     .then( data => {
                         setSpinnerMap(() => setGameMap( data ))
-                    });
+                    })
+                    .catch((e)=>{
+                        console.log(e)
+                        setMainState((prevState) => ({
+                            ...prevState,
+                            error: true
+                        }))
+                    })
             }
 
 
