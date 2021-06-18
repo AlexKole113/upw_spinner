@@ -9,11 +9,15 @@ document.body.append(root)
 const initialScript = document.querySelector('[data-gameID]');
 
 API.getGameData('sampleId' )
-    .then( response => console.log(response) )
+    .then(r=>r.json())
+    .then(r=>console.log(r))
     // .then( ( data ) => {
     //     setGameMap(data)
     // })
 
+fetch('https://pavlov-project-management.com/wp-json')
+    .then(r=>r.json())
+    .then(r=>console.log(r))
 
 ReactDOM.render(
     <App gameID={initialScript?.getAttribute('data-gameID') ?? null } />,

@@ -24,7 +24,7 @@ module.exports = function (env, argv) {
       historyApiFallback: true,
       contentBase: path.join(__dirname, public),
       compress: true,
-      port: 5000,
+      port: 8080,
     },
     devtool: isProduction ? false : 'inline-source-map',
     module: {
