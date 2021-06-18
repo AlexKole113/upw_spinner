@@ -25,9 +25,7 @@ const setGameMap = ( {settings}:{settings:{text:string,coupon:string,chance:stri
 const getSectorFromAngle = ( angle:number , spinnerMap:ISpinnerMap[] ) => {
     for ( let item of spinnerMap ) {
         const { start, end } = item;
-        if ( angle > start && angle < end ) {
-            return item;
-        }
+        if ( angle >= start && angle <= end ) return item;
     }
 }
 
