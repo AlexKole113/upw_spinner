@@ -81,6 +81,17 @@ export default ({gameID}:{gameID:string|null}) => {
                             attempts: prevState.attempts -= 1,
                         }))
                     })
+            } else {
+                API.getGameData( gameID )
+                    .then( r => r.json() )
+                    .then( data => { setSpinnerMap(() => setGameMap( data )) })
+                    .catch( ( error ) => {
+
+                        setMainState((prevState) => ({
+                            ...prevState,
+                            error: error.message
+                        }))
+                    })
             }
         }
     },[mainState.gameWasStarted])
@@ -119,10 +130,15 @@ export default ({gameID}:{gameID:string|null}) => {
             { (mainState.prize) ?  <BackGround /> : '' }
             <div className={style.container}>
                 <CloseBtn action={closeAndReset} />
-                <Spinner rotate={mainState.angle} />
-                { ( !mainState.prize ) ? <SpinnerCenterGroup appState={mainState} action={sendEmail} /> : <Congratulate appState={mainState} delayToShow={500} /> }
-                {  mainState.error && <ErrorMessage text={mainState.error} /> }
-                <Arrow gameState={mainState} />
+                {  mainState.error ? <ErrorMessage text={mainState.error} /> :
+                    (
+                        <>
+                            <Spinner rotate={mainState.angle} />
+                            { ( !mainState.prize ) ? <SpinnerCenterGroup appState={mainState} action={sendEmail} /> : <Congratulate appState={mainState} delayToShow={500} /> }
+                            <Arrow gameState={mainState} />
+                        </>
+                    )
+                }
             </div>
         </section>
     );
