@@ -29,7 +29,13 @@ export default ({gameID}:{gameID:string|null}) => {
         })
         API.getGameData( gameID )
         .then( r => r.json() )
-        .then( data => { setSpinnerMap(() => setGameMap( data )) });
+        .then( data => { setSpinnerMap(() => setGameMap( data )) })
+        .catch(()=>{
+                setMainState((prevState) => ({
+                    ...prevState,
+                    error: true
+                }))
+            })
     },[]);
 
     //Send Impression after show spinner
@@ -78,8 +84,7 @@ export default ({gameID}:{gameID:string|null}) => {
                     .then( data => {
                         setSpinnerMap(() => setGameMap( data ))
                     })
-                    .catch((e)=>{
-                        console.log(e)
+                    .catch(()=>{
                         setMainState((prevState) => ({
                             ...prevState,
                             error: true
