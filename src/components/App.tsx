@@ -3,6 +3,7 @@ import CloseBtn from "@/components/CloseBtn";
 import Spinner from "@/components/Spinner";
 import SpinnerCenterGroup from "@/components/SpinnerCenterGroup";
 import Arrow from "@/components/Arrow";
+import Congratulate from "@/components/Congratulate";
 import {useEffect,useState} from "react";
 import checkWinner from "@/components/GameLogic/checkWinner";
 import {setFewRandomResults,getNextResult} from "@/components/GameLogic/getFewRandomResults";
@@ -11,18 +12,24 @@ let getNextRandomValue:Generator;
 
 import APIdummy from "../../_mock_";
 import style from '@/styles/style.css'
-import Congratulate from "@/components/Congratulate";
+import API from "@/api";
+import {ISpinnerMap, setGameMap} from "@/components/GameLogic/mapOfSpinnerSectors";
+
 
 export default ({gameID}:{gameID:string|null}) => {
 
-    const numberAttempts = 3;
-    const [ mainState, setMainState ] = useState( getInitialState( gameID , numberAttempts ) );
+    const numberAttempts = 1;
+    const [ mainState, setMainState ]   = useState( getInitialState( gameID , numberAttempts ) );
+    const [ spinnerMap, setSpinnerMap ] = useState<ISpinnerMap[]|null>(null);
 
-    // add EventListener which start Game
+    // add EventListener which start Game AND get spinnerMap
     useEffect(() => {
         window.addEventListener('mouseout', (e) => {
             if( e.relatedTarget === null ) setMainState((prevState)=>({...prevState, active: true}))
         })
+        API.getGameData( gameID )
+        .then( r => r.json() )
+        .then( data => { setSpinnerMap(() => setGameMap( data )) });
     },[]);
 
     //Send Impression after show spinner
@@ -51,26 +58,28 @@ export default ({gameID}:{gameID:string|null}) => {
                 setMainState((prevState)=>({...prevState, results }));
             }
 
-            console.log(mainState.results)
-
             const {value:randomAngle} = getNextRandomValue.next();
-            console.log(randomAngle)
             setMainState((prevState)=>({...prevState, angle: randomAngle}));
 
-            console.log(randomAngle);
-
-            checkWinner( randomAngle, 300 )
-                .then(( prize ) => {
-                    if ( typeof prize === 'string' ) {
-                        //@ts-ignore
+            if ( spinnerMap !== null ) {
+                checkWinner( randomAngle, spinnerMap,300 )
+                    .then(( prize ) => {
+                        // @ts-ignore
                         setMainState((prevState) => ({
                             ...prevState,
                             prize,
                             gameWasStarted: false,
                             attempts: prevState.attempts -= 1,
                         }))
-                    }
-                })
+                    })
+            } else {
+                API.getGameData( gameID )
+                    .then( r => r.json() )
+                    .then( data => {
+                        setSpinnerMap(() => setGameMap( data ))
+                    });
+            }
+
 
 
         }

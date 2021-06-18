@@ -2,7 +2,7 @@ interface IMainState {
     gameID:string|null,
     active: boolean,
     attempts: number,
-    prize: null|string,
+    prize: null| { title:string, coupon: string, [key:string]:any },
     angle: number,
     results: number[],
     gameWasStarted: boolean,

@@ -16,7 +16,6 @@ const Congratulate = ({ appState, delayToShow}:{appState:{[key:string]:any,loadi
         e.preventDefault()
     }
 
-
     return(
         <div className={`${style.container} ${state}`} >
             <div className={style.congratulateBlock}>
@@ -24,11 +23,11 @@ const Congratulate = ({ appState, delayToShow}:{appState:{[key:string]:any,loadi
                 <div  className={style.contentBlock} >
                     <div className={style.prizeGroup}>
                         <span className={style.prizeGroupTitle}>{`You got a`}</span>
-                        <span className={style.prizeGroupName}>{prize}</span>
+                        <span className={style.prizeGroupName}>{prize.title}</span>
                     </div>
                     <div className={style.codeGroup}>
                         <span className={style.codeGroupTitle}>{`You Discount Code`}</span>
-                        <span className={style.codeGroupName}>{`CODE####`}</span>
+                        <span className={style.codeGroupName}>{ (prize.coupon) ? prize.coupon : `:(` }</span>
                     </div>
                     <div className={style.btnGroup}>
                         <a onClick={(e)=> {onSendAction(e)}} className={style.btnGroupBtn} href="">{`shop now`}</a>
