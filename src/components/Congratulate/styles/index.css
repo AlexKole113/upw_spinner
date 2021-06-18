@@ -11,6 +11,7 @@
     visibility: hidden;
     opacity: 0;
     transform: scale(0);
+    font-family: var(--font-primary);
 }
 
 .containerShowed {
@@ -30,6 +31,7 @@
     border: 1rem solid var(--color-border);
     padding: 14% 10%;
     text-align: center;
+    font-family: var(--font-primary);
 
 }
 
@@ -37,6 +39,7 @@
     font-size: 1.62rem;
     display: block;
     margin-bottom: 10%;
+    font-family: var(--font-primary);
 }
 
 .contentBlock {
@@ -49,6 +52,7 @@
 
 .prizeGroupTitle {
     display: block;
+    font-family: var(--font-primary);
 }
 
 .prizeGroupName {
@@ -57,6 +61,7 @@
     font-size: 1.5rem;
     font-weight: 800;
     letter-spacing: .5px;
+    font-family: var(--font-primary);
 }
 /* PROMOCODE GROUP */
 .codeGroup {
@@ -67,6 +72,7 @@
     display: block;
     font-size: 1rem;
     letter-spacing: .5px;
+    font-family: var(--font-primary);
 }
 
 .codeGroupName {
@@ -74,6 +80,7 @@
     margin: 3% auto;
     font-size: 1.7rem;
     font-weight: 800;
+    font-family: var(--font-primary);
 }
 /* BTN GROUP */
 .btnGroup {
@@ -89,4 +96,5 @@
     padding: 2% 18%;
     font-weight: 800;
     letter-spacing: .5px;
+    font-family: var(--font-primary);
 }

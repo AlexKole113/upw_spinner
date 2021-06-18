@@ -1,9 +1,11 @@
 .form {
     position: relative;
+    font-family: var(--font-primary);
 }
 .cta {
     text-transform: uppercase;
     font-size: var(--font-size-title);
+    font-family: var(--font-primary);
     font-weight: 800;
     display: block;
     margin-top: 28.5%;

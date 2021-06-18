@@ -1,14 +1,15 @@
-@font-face {
-    font-family: Gotham;
-    src: url('@/fonts/Gotham.otf');
-}
+@import "https://cdn.rawgit.com/mfd/f3d96ec7f0e8f034cc22ea73b3797b59/raw/856f1dbb8d807aabceb80b6d4f94b464df461b3e/gotham.css";
+/*@font-face {*/
+/*    font-family: Gotham;*/
+/*    src: url('../../dist/assets/resources/Gotham.otf');*/
+/*}*/
 
 .spinner {
     --color-red: #ee051d;
     --color-white: #fff;
     --color-dark: #222323;
     --transition: .8s;
-    --font-primary: Gotham;
+    --font-primary: Gotham, sans-serif;
     --font-size-title: 4vw;
     --font-size-regular: 3.5vw;
     position: fixed;

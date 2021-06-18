@@ -4,14 +4,14 @@ class API {
     static SUBMISSIONS = API.HOST + `submissions`;
     static EMBED       = API.HOST + `embed`;
 
-    static getGameData = ( gameId: string, method:string = 'GET' ) => {
+    static getGameData = ( gameId: string ) => {
         return fetch( API.EMBED + `/${gameId}` , {
-            method: method,
+            //method: method,
             cache: 'no-cache',
             credentials: 'include',
             //mode: 'no-cors',
             headers: {
-                "Access-Control-Allow-Origin": "*",
+                "Content-Type" : "application/x-www-form-urlencoded",
             }
         })
 
