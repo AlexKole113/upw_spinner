@@ -1,4 +1,4 @@
-import style from '@/styles/style.css'
+import style from './styles/index.css'
 import {useEffect} from "react";
 import Fireworks from "@/components/BackGround/components/canvas";
 const BackGround = () => {

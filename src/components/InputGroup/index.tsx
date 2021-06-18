@@ -1,15 +1,15 @@
-import style from "@/styles/style.css";
+import style from "./styles/index.css";
 import {ChangeEvent} from "react";
 
 const InputGroup = ({ placeholder, btnText, formState, action, appState }:{placeholder:string, btnText:string, formState:string, action:(e:ChangeEvent)=> void, appState:{loading:boolean, [key:string]:any} }) => {
 
     return(
         <>
-            <div className={style.spinnerUpwInputGroup}>
-                <input onChange={(e)=>{action(e)}} className={style.spinnerUpwInput} type="email" placeholder={placeholder} value={formState} />
+            <div className={style.inputGroup}>
+                <input onChange={(e)=>{action(e)}} className={style.input} type="email" placeholder={placeholder} value={formState} />
 
-                <div className={style.spinnerUpwBtnSlot}>
-                    { ( appState.loading) ? <img className={style.spinnerUpwInputGroupLoader} src='assets/preloader.gif' /> :  <input type="submit" className={style.spinnerUpwFormBtn} value={btnText} /> }
+                <div className={style.slot}>
+                    { ( appState.loading) ? <img className={style.loader} src='assets/preloader.gif' /> :  <input type="submit" className={style.btn} value={btnText} /> }
                 </div>
             </div>
         </>

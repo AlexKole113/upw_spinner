@@ -1,4 +1,4 @@
-import style from '@/styles/style.css'
+import style from './styles/index.css'
 import InputGroup from "@/components/InputGroup";
 import {ChangeEvent, useState} from "react";
 const Form = ({mainText, inputPlaceholder, btnText, action, appState }:{mainText:string, inputPlaceholder:string, btnText:string, action:(state:string)=>void, appState:{loading:boolean, [key:string]:any} } ) => {
@@ -10,8 +10,8 @@ const Form = ({mainText, inputPlaceholder, btnText, action, appState }:{mainText
     }
 
     return(
-        <form onSubmit={(e)=>{e.preventDefault();action(state)}} className={style.spinnerUpwForm}>
-            <span className={style.spinnerUpwFormCta}>
+        <form onSubmit={(e)=>{e.preventDefault();action(state)}} className={style.form}>
+            <span className={style.cta}>
                 { mainText }
             </span>
             <InputGroup formState={state} action={getTypedEmail} placeholder={inputPlaceholder} btnText={btnText} appState={appState} />

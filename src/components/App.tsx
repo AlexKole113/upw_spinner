@@ -1,7 +1,7 @@
 import BackGround from "@/components/BackGround";
 import CloseBtn from "@/components/CloseBtn";
 import Spinner from "@/components/Spinner";
-import Form from "@/components/Form";
+import SpinnerCenterGroup from "@/components/SpinnerCenterGroup";
 import Arrow from "@/components/Arrow";
 import {useEffect,useState} from "react";
 import checkWinner from "@/components/GameLogic/checkWinner";
@@ -11,7 +11,7 @@ let getNextRandomValue:Generator;
 
 import APIdummy from "../../_mock_";
 import style from '@/styles/style.css'
-
+import Congratulate from "@/components/Congratulate";
 
 export default ({gameID}:{gameID:string|null}) => {
 
@@ -41,7 +41,6 @@ export default ({gameID}:{gameID:string|null}) => {
         }
 
     },[mainState.active]);
-
 
     useEffect(() => {
         if(mainState.gameWasStarted && mainState.attempts > 0) {
@@ -107,37 +106,12 @@ export default ({gameID}:{gameID:string|null}) => {
     }
 
     return (
-        <section className={`${style.spinnerUPW}  ${ ( !mainState.active ) ? style.displayNONE : '' }`} >
+        <section className={`${style.spinner}  ${ ( !mainState.active ) ? style.displayNONE : '' }`} >
             { (mainState.prize) ?  <BackGround /> : '' }
-            <div className={style.spinnerUpwContainer}>
+            <div className={style.container}>
                 <CloseBtn action={closeAndReset} />
                 <Spinner rotate={mainState.angle} />
-                {
-                    ( !mainState.prize )
-                        ? (<div className={style.spinnerUpwCenter}>
-                            { ( mainState.error ) ?
-                                <div className={style.errorMessageGroup}>{mainState.error}</div> :
-                                <Form mainText={ 'spin to win' } inputPlaceholder={ `Enter your email` } btnText={ `Spin it!` } action={sendEmail} appState={mainState} />
-                            }
-                        </div>)
-                        : (<div className={`${style.spinnerUpwCenter} ${style.spinnerUpwPrizeGroup}`} >
-                            <div className={style.prizeTitle}>
-                                <span className={style.prizeTitlePre}>{`Congratulations !!!`}</span>
-                                <span className={style.prizeTitlePre}>{`You won: `}</span>
-                                <span className={style.prizeTitleMain}>{ mainState.prize }</span>
-                            </div>
-                            <div className={style.prizeAttempts}>
-                                <span>{`You can try`}</span>
-                                <span className={style.importantSpan}>{mainState.attempts}</span>
-                                <span>{`more times`}</span>
-                            </div>
-                            <div className={style.prizeBtn}>
-                                <a onClick={(e)=>{ e.preventDefault(); closeAndReset(); }} href="#">get prize</a>
-                                { (mainState.attempts > 0) ? <a onClick={(e)=>{ e.preventDefault(); setMainState((pS)=>({...pS,gameWasStarted: true})); }} href="#">try</a>: '' }
-
-                            </div>
-                        </div>)
-                }
+                { ( !mainState.prize ) ? <SpinnerCenterGroup appState={mainState} action={sendEmail} /> : <Congratulate appState={mainState} delayToShow={500} /> }
                 <Arrow gameState={mainState} />
             </div>
         </section>
