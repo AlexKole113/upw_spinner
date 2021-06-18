@@ -1,0 +1,25 @@
+.errorBlock {
+    position: absolute;
+    top: -1rem;
+    right:  -1rem;
+    bottom:  -1rem;
+    left:  -1rem;
+    border-radius: 100%;
+}
+
+.error {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    bottom: .5rem;
+    left: .5rem;
+    border-radius: 100%;
+    border: 1rem solid red;
+    color: #ee051d;
+    text-transform: uppercase;
+    background: #fff;
+    z-index: 10;
+    display: grid;
+    place-content: center;
+    font-size: 2rem;
+}

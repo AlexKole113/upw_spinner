@@ -14,6 +14,7 @@ import APIdummy from "../../_mock_";
 import style from '@/styles/style.css'
 import API from "@/api";
 import {ISpinnerMap, setGameMap} from "@/components/GameLogic/mapOfSpinnerSectors";
+import ErrorMessage from "@/components/ErrorMessage";
 
 
 export default ({gameID}:{gameID:string|null}) => {
@@ -30,10 +31,11 @@ export default ({gameID}:{gameID:string|null}) => {
         API.getGameData( gameID )
         .then( r => r.json() )
         .then( data => { setSpinnerMap(() => setGameMap( data )) })
-        .catch(()=>{
+        .catch( ( error ) => {
+
                 setMainState((prevState) => ({
                     ...prevState,
-                    error: true
+                    error: error.message
                 }))
             })
     },[]);
@@ -46,6 +48,7 @@ export default ({gameID}:{gameID:string|null}) => {
                     console.log(response)
                 })
                 .catch((e)=>{
+
                     setMainState((prevState)=>({
                         ...prevState,
                         error: e,
@@ -78,22 +81,7 @@ export default ({gameID}:{gameID:string|null}) => {
                             attempts: prevState.attempts -= 1,
                         }))
                     })
-            } else {
-                API.getGameData( gameID )
-                    .then( r => r.json() )
-                    .then( data => {
-                        setSpinnerMap(() => setGameMap( data ))
-                    })
-                    .catch(()=>{
-                        setMainState((prevState) => ({
-                            ...prevState,
-                            error: true
-                        }))
-                    })
             }
-
-
-
         }
     },[mainState.gameWasStarted])
 
@@ -118,10 +106,10 @@ export default ({gameID}:{gameID:string|null}) => {
                     gameWasStarted: true,
                 }))
             })
-            .catch((e)=>{
+            .catch((error)=>{
                 setMainState((prevState)=>({
                     ...prevState,
-                    error: e,
+                    error: error.message,
                 }))
             })
     }
@@ -133,6 +121,7 @@ export default ({gameID}:{gameID:string|null}) => {
                 <CloseBtn action={closeAndReset} />
                 <Spinner rotate={mainState.angle} />
                 { ( !mainState.prize ) ? <SpinnerCenterGroup appState={mainState} action={sendEmail} /> : <Congratulate appState={mainState} delayToShow={500} /> }
+                {  mainState.error && <ErrorMessage text={mainState.error} /> }
                 <Arrow gameState={mainState} />
             </div>
         </section>

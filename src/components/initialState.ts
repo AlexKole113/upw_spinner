@@ -8,7 +8,7 @@ interface IMainState {
     gameWasStarted: boolean,
     loading: boolean,
     success: boolean,
-    error: boolean
+    error: boolean|string
 }
 
 const getInitialState = (gameID:string|null , numberAttempts:number) :IMainState => (
