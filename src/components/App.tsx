@@ -8,14 +8,13 @@ import {useEffect,useState} from "react";
 import checkWinner from "@/components/GameLogic/checkWinner";
 import {setFewRandomResults,getNextResult} from "@/components/GameLogic/getFewRandomResults";
 import getInitialState from "@/components/initialState";
-let getNextRandomValue:Generator;
 
-import APIdummy from "../../_mock_";
 import style from '@/styles/style.css'
 import API from "@/api";
 import {ISpinnerMap, setGameMap} from "@/components/GameLogic/mapOfSpinnerSectors";
 import ErrorMessage from "@/components/ErrorMessage";
 
+let getNextRandomValue:Generator;
 
 export default ({gameID}:{gameID:string|null}) => {
 
@@ -23,11 +22,13 @@ export default ({gameID}:{gameID:string|null}) => {
     const [ mainState, setMainState ]   = useState( getInitialState( gameID , numberAttempts ) );
     const [ spinnerMap, setSpinnerMap ] = useState<ISpinnerMap[]|null>(null);
 
+    const spinnerPopUpStarter = ( e:MouseEvent ) => {
+        if ( e.relatedTarget === null ) setMainState((prevState)=>({...prevState, active: true}))
+    }
+
     // add EventListener which start Game AND get spinnerMap
     useEffect(() => {
-        window.addEventListener('mouseout', (e) => {
-            if( e.relatedTarget === null ) setMainState((prevState)=>({...prevState, active: true}))
-        })
+        window.addEventListener('mouseout', spinnerPopUpStarter )
         API.getGameData( gameID )
         .then( r => r.json() )
         .then( data => { setSpinnerMap(() => setGameMap( data )) })
@@ -38,28 +39,24 @@ export default ({gameID}:{gameID:string|null}) => {
                     error: error.message
                 }))
             })
+
+        return(
+            () => {
+                window.removeEventListener('mouseout', spinnerPopUpStarter );
+            }
+        )
     },[]);
 
     //Send Impression after show spinner
     useEffect(() => {
-        if( mainState.active && gameID ) {
-            APIdummy.sendImpression( gameID )
-                .then(( response )=>{
-                    console.log(response)
-                })
-                .catch((e)=>{
-
-                    setMainState((prevState)=>({
-                        ...prevState,
-                        error: e,
-                    }))
-                })
+        if( !mainState.emailWasSent && mainState.active && gameID ) {
+            //TODO: API sendImpression
         }
 
     },[mainState.active]);
 
     useEffect(() => {
-        if(mainState.gameWasStarted && mainState.attempts > 0) {
+        if( mainState.gameWasStarted && mainState.attempts > 0 ) {
 
             if( mainState.attempts === numberAttempts ){
                 const results = setFewRandomResults( numberAttempts );
@@ -86,7 +83,6 @@ export default ({gameID}:{gameID:string|null}) => {
                     .then( r => r.json() )
                     .then( data => { setSpinnerMap(() => setGameMap( data )) })
                     .catch( ( error ) => {
-
                         setMainState((prevState) => ({
                             ...prevState,
                             error: error.message
@@ -94,37 +90,36 @@ export default ({gameID}:{gameID:string|null}) => {
                     })
             }
         }
-    },[mainState.gameWasStarted])
+    },[mainState.gameWasStarted]);
 
     //Reset Game and Close PopUp
     const closeAndReset = () => {
         setMainState(() => ({...getInitialState(gameID,numberAttempts)}))
     }
 
+    const setEmailWasSend = () => {
+        setMainState(() => ({
+                ...getInitialState(gameID,numberAttempts),
+                emailWasSent: true
+        }))
+    }
+
     //Send Email
     const sendEmail = ( value:string ) => {
         if(!mainState.gameID || !value ) return;
-
+        //TODO: API sendLead AND CHANGE ---->
+            setMainState((prevState)=>({
+                ...prevState,
+                error: false,
+                loading: false,
+                success: true,
+                gameWasStarted: true,
+            }))
+        // --------------------------------->
         setMainState((prevState)=>({...prevState, success: false, error:false, loading: true }))
-
-        APIdummy.sendLead( mainState.gameID, value )
-            .then(()=>{
-                setMainState((prevState)=>({
-                    ...prevState,
-                    error: false,
-                    loading: false,
-                    success: true,
-                    gameWasStarted: true,
-                }))
-            })
-            .catch((error)=>{
-                setMainState((prevState)=>({
-                    ...prevState,
-                    error: error.message,
-                }))
-            })
     }
 
+    if( mainState.emailWasSent ) return null;
     return (
         <section className={`${style.spinner}  ${ ( !mainState.active ) ? style.displayNONE : '' }`} >
             { (mainState.prize) ?  <BackGround /> : '' }
@@ -134,7 +129,10 @@ export default ({gameID}:{gameID:string|null}) => {
                     (
                         <>
                             <Spinner rotate={mainState.angle} />
-                            { ( !mainState.prize ) ? <SpinnerCenterGroup appState={mainState} action={sendEmail} /> : <Congratulate appState={mainState} delayToShow={500} /> }
+                            {
+                                ( !mainState.gameWasStarted ) ? ( ( !mainState.prize ) ? <SpinnerCenterGroup appState={mainState} action={sendEmail} /> : <Congratulate action={setEmailWasSend} appState={mainState} delayToShow={800} /> ) : ''
+                            }
+
                             <Arrow gameState={mainState} />
                         </>
                     )

@@ -6,6 +6,7 @@ interface IMainState {
     angle: number,
     results: number[],
     gameWasStarted: boolean,
+    emailWasSent: boolean,
     loading: boolean,
     success: boolean,
     error: boolean|string
@@ -20,6 +21,7 @@ const getInitialState = (gameID:string|null , numberAttempts:number) :IMainState
         angle:0,
         results:[0],
         gameWasStarted: false,
+        emailWasSent: false,
         loading: false,
         success:true,
         error:false

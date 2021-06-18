@@ -1,7 +1,7 @@
 import style from "./styles/index.css";
 import {useEffect, useState} from "react";
 
-const Congratulate = ({ appState, delayToShow}:{appState:{[key:string]:any,loading: boolean},delayToShow:number}) => {
+const Congratulate = ({ appState, action, delayToShow}:{appState:{[key:string]:any,loading: boolean}, action:CallableFunction, delayToShow:number}) => {
     const { prize } = appState;
 
     const[state,setState] = useState('')
@@ -12,8 +12,9 @@ const Congratulate = ({ appState, delayToShow}:{appState:{[key:string]:any,loadi
     },[])
 
 
-    const onSendAction = (e:React.MouseEvent<Element, MouseEvent>) :void => {
-        e.preventDefault()
+    const onShopAction = (e:React.MouseEvent<Element, MouseEvent>) :void => {
+        e.preventDefault();
+        action()
     }
 
     return(
@@ -30,7 +31,7 @@ const Congratulate = ({ appState, delayToShow}:{appState:{[key:string]:any,loadi
                         <span className={style.codeGroupName}>{ (prize.coupon) ? prize.coupon : `:(` }</span>
                     </div>
                     <div className={style.btnGroup}>
-                        <a onClick={(e)=> {onSendAction(e)}} className={style.btnGroupBtn} href="">{`shop now`}</a>
+                        <a onClick={(e)=> {onShopAction(e)}} className={style.btnGroupBtn} href="">{`shop now`}</a>
                     </div>
                 </div>
             </div>
