@@ -6,7 +6,6 @@
     left:  -1rem;
     border-radius: 100%;
 }
-
 .error {
     position: absolute;
     top: .5rem;
@@ -14,10 +13,10 @@
     bottom: .5rem;
     left: .5rem;
     border-radius: 100%;
-    border: 1rem solid red;
-    color: #ee051d;
+    border: 1rem solid var(--color-red);
+    color: var(--color-white);
     text-transform: uppercase;
-    background: #fff;
+    background: var(--color-red);;
     z-index: 10;
     display: grid;
     place-content: center;
