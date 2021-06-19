@@ -5,16 +5,14 @@ import SpinnerCenterGroup from "@/components/SpinnerCenterGroup";
 import Arrow from "@/components/Arrow";
 import Congratulate from "@/components/Congratulate";
 import {useEffect,useState} from "react";
-import checkWinner from "@/components/GameLogic/checkWinner";
-import {setFewRandomResults,getNextResult} from "@/components/GameLogic/getFewRandomResults";
 import getInitialState from "@/components/initialState";
 
 import style from '@/styles/style.css'
 import API from "@/api";
 import {ISpinnerMap, setGameMap} from "@/components/GameLogic/mapOfSpinnerSectors";
 import ErrorMessage from "@/components/ErrorMessage";
+import useSpinnerGameLogic from "@/hooks/useSpinnerGameLogic";
 
-let getNextRandomValue:Generator;
 
 export default ({gameID}:{gameID:string|null}) => {
 
@@ -55,42 +53,7 @@ export default ({gameID}:{gameID:string|null}) => {
 
     },[mainState.active]);
 
-    useEffect(() => {
-        if( mainState.gameWasStarted && mainState.attempts > 0 ) {
-
-            if( mainState.attempts === numberAttempts ){
-                const results = setFewRandomResults( numberAttempts );
-                getNextRandomValue = getNextResult( results );
-                setMainState((prevState)=>({...prevState, results }));
-            }
-
-            const {value:randomAngle} = getNextRandomValue.next();
-            setMainState((prevState)=>({...prevState, angle: randomAngle}));
-
-            if ( spinnerMap !== null ) {
-                checkWinner( randomAngle, spinnerMap,300 )
-                    .then(( prize ) => {
-                        // @ts-ignore
-                        setMainState((prevState) => ({
-                            ...prevState,
-                            prize,
-                            gameWasStarted: false,
-                            attempts: prevState.attempts -= 1,
-                        }))
-                    })
-            } else {
-                API.getGameData( gameID )
-                    .then( r => r.json() )
-                    .then( data => { setSpinnerMap(() => setGameMap( data )) })
-                    .catch( ( error ) => {
-                        setMainState((prevState) => ({
-                            ...prevState,
-                            error: error.message
-                        }))
-                    })
-            }
-        }
-    },[mainState.gameWasStarted]);
+    useSpinnerGameLogic( mainState, setMainState, numberAttempts, spinnerMap, gameID, setSpinnerMap )
 
     //Reset Game and Close PopUp
     const closeAndReset = () => {

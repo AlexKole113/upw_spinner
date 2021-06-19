@@ -1,4 +1,4 @@
-interface IMainState {
+export interface IMainState {
     gameID:string|null,
     active: boolean,
     attempts: number,
