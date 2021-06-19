@@ -7,8 +7,8 @@ class API {
     static getGameData = ( gameId: string|null  = 'sampleId', method = 'GET' ) => {
         return fetch( API.EMBED + `/${gameId}` , {
             method: method,
-            cache: 'no-cache',
-            credentials: 'include',
+           // cache: 'no-cache',
+           // credentials: 'include',
             headers: {
                 "Content-Type" : "text/plain",
             }
@@ -47,7 +47,6 @@ class API {
     checkEmail = () => {
 
     }
-
 
 }
 
