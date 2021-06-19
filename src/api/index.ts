@@ -8,7 +8,7 @@ class API {
         return fetch( API.EMBED + `/${gameId}` , {
             method: method,
            // cache: 'no-cache',
-           // credentials: 'include',
+            credentials: 'omit',
             headers: {
                 "Content-Type" : "text/plain",
             }
