@@ -35,7 +35,7 @@ const useSpinnerGameLogic = (mainState:IMainState, setMainState:CallableFunction
                     })
             } else {
                 API.getGameData( gameID )
-                    .then( r => r.json() )
+                    .then( r => r )
                     .then( data => { setSpinnerMap(() => setGameMap( data )) })
                     .catch( ( error ) => {
                         setMainState((prevState:IMainState) => ({

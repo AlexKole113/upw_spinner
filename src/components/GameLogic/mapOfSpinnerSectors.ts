@@ -5,7 +5,7 @@ interface ISpinnerMap {
     [key:string]: any
 }
 
-const setGameMap = ( {settings}:{settings:{text:string,coupon:string,chance:string,[key:string]:any}[]} ) :ISpinnerMap[] => {
+const setGameMap = ( {settings}:{settings:{text:string,coupon:string,chance:string|number,[key:string]:any}[]} ) :ISpinnerMap[] => {
 
    let map = []
     for(let i = 0; i < settings.length; i++ ) {

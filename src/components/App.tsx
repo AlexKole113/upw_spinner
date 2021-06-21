@@ -28,7 +28,7 @@ export default ({gameID}:{gameID:string|null}) => {
     useEffect(() => {
         window.addEventListener('mouseout', spinnerPopUpStarter )
         API.getGameData( gameID )
-        .then( r => r.json() )
+        .then( r => r )
         .then( data => { setSpinnerMap(() => setGameMap( data )) })
         .catch( ( error ) => {
 
