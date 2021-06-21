@@ -28,7 +28,7 @@ export default ({gameID}:{gameID:string|null}) => {
     useEffect(() => {
         window.addEventListener('mouseout', spinnerPopUpStarter )
         API.getGameData( gameID )
-        .then( r => r )
+        .then( r => r.json() )
         .then( data => { setSpinnerMap(() => setGameMap( data )) })
         .catch( ( error ) => {
 
@@ -37,7 +37,6 @@ export default ({gameID}:{gameID:string|null}) => {
                     error: error.message
                 }))
             })
-
         return(
             () => {
                 window.removeEventListener('mouseout', spinnerPopUpStarter );
