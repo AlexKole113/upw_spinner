@@ -26,10 +26,12 @@ export default ({gameID}:{gameID:string|null}) => {
 
     // add EventListener which start Game AND get spinnerMap
     useEffect(() => {
-        window.addEventListener('mouseout', spinnerPopUpStarter )
         API.getGameData( gameID )
         .then( r => r.json() )
-        .then( data => { setSpinnerMap(() => setGameMap( data )) })
+        .then( data => {
+            setSpinnerMap(() => setGameMap( data ));
+            window.addEventListener('mouseout', spinnerPopUpStarter )
+        })
         .catch( ( error ) => {
 
                 setMainState((prevState) => ({
