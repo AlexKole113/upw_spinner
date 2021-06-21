@@ -5,7 +5,7 @@ class API {
     static EMBED       = API.HOST + `embed`;
 
     static getGameData = ( gameId: string|null  = 'sampleId', method = 'GET' ) => {
-        console.log('start fetch')
+        console.log('start fetch -')
         return fetch( API.EMBED + `/${gameId}` , {
             method: method,
            // cache: 'no-cache',
