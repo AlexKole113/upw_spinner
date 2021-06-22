@@ -46,12 +46,21 @@
     display: none!important;
 }
 
-@media ( min-width: 768px ) {
+@media ( min-width: 991px ) {
+    .spinner {
+        --font-size-title: 3vw;
+        --font-size-regular: 2.5vw;
+    }
+    .container {
+        width: 50vw;
+        height: 50vw;
+    }
+}
+@media ( min-width: 1200px ) {
     .spinner {
         --font-size-title: 1.45vw;
         --font-size-regular: 1.45vw;
     }
-
     .container {
         width: 30vw;
         height: 30vw;

@@ -12,11 +12,12 @@ import API from "@/api";
 import {ISpinnerMap, setGameMap} from "@/components/GameLogic/mapOfSpinnerSectors";
 import ErrorMessage from "@/components/ErrorMessage";
 import useSpinnerGameLogic from "@/hooks/useSpinnerGameLogic";
+import TryAgain from "@/components/TryAgain";
 
 
 export default ({gameID}:{gameID:string|null}) => {
 
-    const numberAttempts = 1;
+    const numberAttempts = 3;
     const [ mainState, setMainState ]   = useState( getInitialState( gameID , numberAttempts ) );
     const [ spinnerMap, setSpinnerMap ] = useState<ISpinnerMap[]|null>(null);
 
@@ -49,7 +50,11 @@ export default ({gameID}:{gameID:string|null}) => {
     //Send Impression after show spinner
     useEffect(() => {
         if( !mainState.emailWasSent && mainState.active && gameID ) {
-            //TODO: API sendImpression
+           // TODO: sendImpression
+           // API.sendImpression(mainState.gameID)
+           // .catch((e)=>{
+           //     console.log(e)
+           // })
         }
 
     },[mainState.active]);
@@ -71,22 +76,49 @@ export default ({gameID}:{gameID:string|null}) => {
     //Send Email
     const sendEmail = ( value:string ) => {
         if(!mainState.gameID || !value ) return;
-        //TODO: API sendLead AND CHANGE ---->
-            setMainState((prevState)=>({
-                ...prevState,
-                error: false,
-                loading: false,
-                success: true,
-                gameWasStarted: true,
-            }))
+
+        //TODO: sendLead (remove setMainState)
+        setMainState((prevState)=>({
+            ...prevState,
+            error: false,
+            loading: false,
+            success: true,
+            gameWasStarted: true,
+        }))
+
+        // API.sendLead(mainState.gameID, value)
+        // .then(()=>{
+        //     setMainState((prevState)=>({
+        //         ...prevState,
+        //         error: false,
+        //         loading: false,
+        //         success: true,
+        //         gameWasStarted: true,
+        //     }))
+        // })
+        // .catch((e)=>{
+        //     console.log(e)
+        // })
+
         // --------------------------------->
         setMainState((prevState)=>({...prevState, success: false, error:false, loading: true }))
+    }
+
+    const tryAgain = () => {
+        setMainState((prevState)=>({
+            ...prevState,
+            prize: null,
+            error: false,
+            loading: false,
+            success: true,
+            gameWasStarted: true,
+        }))
     }
 
     if( mainState.emailWasSent ) return null;
     return (
         <section className={`${style.spinner}  ${ ( !mainState.active ) ? style.displayNONE : '' }`} >
-            { (mainState.prize) ?  <BackGround /> : '' }
+            { (mainState.prize?.coupon) ?  <BackGround /> : '' }
             <div className={style.container}>
                 <CloseBtn action={closeAndReset} />
                 {  mainState.error ? <ErrorMessage text={mainState.error} /> :
@@ -94,7 +126,9 @@ export default ({gameID}:{gameID:string|null}) => {
                         <>
                             <Spinner rotate={mainState.angle} />
                             {
-                                ( !mainState.gameWasStarted ) ? ( ( !mainState.prize ) ? <SpinnerCenterGroup appState={mainState} action={sendEmail} /> : <Congratulate action={setEmailWasSend} appState={mainState} delayToShow={800} /> ) : ''
+                                 !mainState.gameWasStarted  ?
+                                     ( !mainState.prize  ? <SpinnerCenterGroup appState={mainState} action={sendEmail} /> : mainState.prize.coupon  ?
+                                                                                                                                                        <Congratulate action={setEmailWasSend} appState={mainState} delayToShow={500} />  : <TryAgain action={tryAgain} appState={mainState} delayToShow={400} /> ) : ""
                             }
 
                             <Arrow gameState={mainState} />

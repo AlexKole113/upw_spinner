@@ -12,7 +12,10 @@ class API {
         })
     }
 
-    static sendImpression = ( gameId: string, method:string = 'POST' ) => {
+    static sendImpression = ( gameId:string|null, method:string = 'POST' ) => {
+        if( !gameId ) {
+            throw new Error('no gameId for sendImpression')
+        }
         return fetch( API.SUBMISSIONS , {
             method: method,
             cache: 'no-cache',
@@ -26,7 +29,10 @@ class API {
         })
     }
 
-    static sendLead = ( gameId:string, email:string, method:string = 'POST' ) => {
+    static sendLead = ( gameId:string|null, email:string, method:string = 'POST' ) => {
+        if( !gameId ) {
+            throw new Error('no gameId for sendLead')
+        }
         return fetch( API.SUBMISSIONS , {
             method: method,
             cache: 'no-cache',
@@ -42,7 +48,7 @@ class API {
     }
 
     checkEmail = () => {
-
+        //TODO: Need check ??
     }
 
 }

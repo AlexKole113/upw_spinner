@@ -5,7 +5,6 @@ const EMBED_SRC = 'https://someEmbed/script/there/';
 const CSS_URL   = 'dist/assets/css/main.css';
 
 
-
 // create root
 const root = document.createElement('div');
 root.setAttribute('id','upw-spinner-root' );
@@ -15,12 +14,12 @@ const link = document.createElement('link');
 link.setAttribute('rel','stylesheet');
 link.setAttribute('href', CSS_URL  );
 
-document.head.append(link)
-document.body.append(root)
+document.head.append( link )
+document.body.append( root )
 
 const gameID = document.querySelector(`[src^="${EMBED_SRC}"]`)
     ?.getAttribute('src')
-    ?.split(EMBED_SRC)[1];
+    ?.split( EMBED_SRC )[1];
 
 
 if( gameID ) {

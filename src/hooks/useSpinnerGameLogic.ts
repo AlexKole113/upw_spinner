@@ -9,7 +9,6 @@ let getNextRandomValue:Generator;
 
 const useSpinnerGameLogic = (mainState:IMainState, setMainState:CallableFunction, numberAttempts:number, spinnerMap:ISpinnerMap[]|null, gameID:string|null, setSpinnerMap:CallableFunction ) => {
 
-
     useEffect(() => {
         if( mainState.gameWasStarted && mainState.attempts > 0 ) {
 
