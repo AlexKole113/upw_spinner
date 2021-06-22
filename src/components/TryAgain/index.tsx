@@ -22,7 +22,9 @@ const TryAgain = ({ appState, action, delayToShow}:{appState:{[key:string]:any,l
                         <span className={style.prizeGroupName}>{prize.title}</span>
                     </div>
                     <div className={style.codeGroup}>
-                        <span className={style.codeGroupTitle}>{`You have ${appState.attempts} attempts`}</span>
+                        <span className={style.codeGroupTitle}>{`You have `}</span>
+                        <span className={style.important}>{appState.attempts}</span>
+                        <span className={style.codeGroupTitle}>{` attempts`}</span>
                     </div>
                     <div className={style.btnGroup}>
                         { appState.attempts > 0 ? <a onClick={(e)=> { e.preventDefault(); action() }} className={style.btnGroupBtn} href="">{`try again`}</a> : ''}

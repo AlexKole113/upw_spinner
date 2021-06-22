@@ -15,7 +15,7 @@
 }
 
 .containerShowed {
-    transform: scale(1.25);
+    transform: scale(1.1);
     opacity: 1;
     visibility: visible;
     z-index: 10;
