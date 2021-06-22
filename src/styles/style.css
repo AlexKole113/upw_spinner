@@ -7,7 +7,7 @@
 .spinner {
     --color-red: #ee051d;
     --color-white: #fff;
-    --color-dark: #222323;
+    --color-dark: #00000099;
     --transition: .8s;
     --font-primary: Gotham, sans-serif;
     --font-size-title: 4vw;
@@ -20,6 +20,10 @@
     background: var(--color-dark);
     font-family: var(--font-primary);
     overflow: hidden;
+}
+
+.transparentBACK.spinner {
+    --color-dark: transparent;
 }
 
 .container {

@@ -146,7 +146,7 @@ export default class Fireworks
 
     clear() {
         this.engine.clearRect(0, 0, this.width, this.height);
-        this.engine.fillStyle = '#222';
+        this.engine.fillStyle = '#00000099';
         this.engine.fillRect(0, 0, this.width, this.height);
     }
 

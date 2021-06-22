@@ -8,9 +8,10 @@ const Form = ({mainText, inputPlaceholder, btnText, action, appState }:{mainText
     const getTypedEmail = (e:ChangeEvent) => {
         const value = (e.target as HTMLInputElement).value
         setState( (prevState) =>({...prevState, value }) )
+        if( value ) setState( (prevState) =>({...prevState, error: false }) )
     }
 
-    const checkValue = ( action:(state:string)=>void, value:string ) => {
+    const checkAndGetValue = ( action:(state:string)=>void, value:string ) => {
         if( !isCorrectValue( value ) ){
             setState((prevState) =>({...prevState, error: true}))
         } else {
@@ -19,7 +20,7 @@ const Form = ({mainText, inputPlaceholder, btnText, action, appState }:{mainText
     }
 
     return(
-        <form onSubmit={(e)=>{e.preventDefault(); checkValue(action, state.value) }} className={style.form}>
+        <form onSubmit={(e)=>{e.preventDefault(); checkAndGetValue(action, state.value) }} className={style.form}>
             <span className={style.cta}>
                 { mainText }
             </span>

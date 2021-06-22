@@ -76,6 +76,7 @@ export default ({gameID}:{gameID:string|null}) => {
     //Send Email
     const sendEmail = ( value:string ) => {
         if(!mainState.gameID || !value ) return;
+        setMainState((prevState)=>({...prevState, success: false, error:false, loading: true }))
 
         //TO DO: sendLead (remove setMainState)
         // setMainState((prevState)=>({
@@ -100,8 +101,6 @@ export default ({gameID}:{gameID:string|null}) => {
             console.log(e)
         })
 
-        // --------------------------------->
-        setMainState((prevState)=>({...prevState, success: false, error:false, loading: true }))
     }
 
     const tryAgain = () => {
@@ -117,8 +116,8 @@ export default ({gameID}:{gameID:string|null}) => {
 
     if( mainState.emailWasSent ) return null;
     return (
-        <section className={`${style.spinner}  ${ ( !mainState.active ) ? style.displayNONE : '' }`} >
-            { (mainState.prize?.coupon) ?  <BackGround /> : '' }
+        <section className={`${style.spinner} ${ ( !mainState.active ) ? style.displayNONE : '' } ${(mainState.prize?.coupon) ? style.transparentBACK : ''}`} >
+            { ( mainState.prize?.coupon ) ?  <BackGround /> : '' }
             <div className={style.container}>
                 <CloseBtn action={closeAndReset} />
                 {  mainState.error ? <ErrorMessage text={mainState.error} /> :
