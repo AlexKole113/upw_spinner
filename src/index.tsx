@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
 import App from './components/App'
 
-const EMBED_SRC = 'https://someEmbed/script/there/';
+const EMBED_SRC = 'https://www.google.com/';
 const CSS_URL   = 'dist/assets/css/main.css';
 
 
