@@ -1,5 +1,8 @@
 .container {
     --color-border: #ded6f6;
+    --font-size-xl: 5vw;
+    --font-size-sm: 4vw;
+    --font-size-xsm: 3vw;
     position: absolute;
     top:0;
     right: 0;
@@ -13,14 +16,12 @@
     transform: scale(0);
     font-family: var(--font-primary);
 }
-
 .containerShowed {
     transform: scale(1.1);
     opacity: 1;
     visibility: visible;
     z-index: 10;
 }
-
 .congratulateBlock {
     border-radius: 100%;
     position: absolute;
@@ -29,72 +30,86 @@
     bottom: .5rem;
     left: .5rem;
     border: 1rem solid var(--color-border);
-    padding: 14% 10%;
+    padding: 9%;
     text-align: center;
     font-family: var(--font-primary);
-
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
 }
-
 .congratulateBlockTitle {
-    font-size: 1.62rem;
+    font-size: var(--font-size-xl);
+    font-weight: 800;
     display: block;
     margin-bottom: 10%;
     font-family: var(--font-primary);
 }
-
-.contentBlock {
-
-}
-/* PRIZE GROUP */
-.prizeGroup {
-
-}
-
 .prizeGroupTitle {
     display: block;
     font-family: var(--font-primary);
+    font-size: var(--font-size-xl);
 }
-
 .prizeGroupName {
     display: block;
     margin: 5% auto;
-    font-size: 1.5rem;
+    font-size: var(--font-size-sm);
     font-weight: 800;
     letter-spacing: .5px;
     font-family: var(--font-primary);
 }
-/* PROMOCODE GROUP */
 .codeGroup {
     margin-top: 12%;
 }
-
 .codeGroupTitle {
     display: block;
-    font-size: 1rem;
+    font-size: var(--font-size-xl);
     letter-spacing: .5px;
     font-family: var(--font-primary);
 }
-
 .codeGroupName {
     display: block;
     margin: 3% auto;
-    font-size: 1.7rem;
+    font-size: var(--font-size-xl);
     font-weight: 800;
     font-family: var(--font-primary);
 }
-/* BTN GROUP */
 .btnGroup {
-    margin: 13.5% auto;
+    margin: 5% auto;
 }
-
 .btnGroupBtn {
     display: inline-block;
     text-decoration: none;
     text-transform: uppercase;
     background-color: red;
     color: #fff;
-    padding: 2% 18%;
+    padding: 2% 5%;
     font-weight: 800;
     letter-spacing: .5px;
     font-family: var(--font-primary);
+    font-size: var(--font-size-xsm);
+}
+
+@media (min-width: 991px) {
+    .container {
+        --font-size-xl: 1.25rem;
+        --font-size-sm: 1.05rem;
+        --font-size-xsm: 1rem;
+    }
+
+    .congratulateBlock {
+        padding: 14% 10%;
+    }
+    .btnGroup {
+        margin: 13.5% auto 0;
+    }
+    .btnGroupBtn {
+        padding: 2% 18%;
+    }
+}
+@media (min-width: 1480px) {
+    .container {
+        --font-size-xl: 1.5rem;
+        --font-size-sm: 1.25rem;
+        --font-size-xsm: 1.1rem;
+    }
 }
