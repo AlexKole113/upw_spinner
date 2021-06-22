@@ -50,11 +50,11 @@ export default ({gameID}:{gameID:string|null}) => {
     //Send Impression after show spinner
     useEffect(() => {
         if( !mainState.emailWasSent && mainState.active && gameID ) {
-           // TODO: sendImpression
-           // API.sendImpression(mainState.gameID)
-           // .catch((e)=>{
-           //     console.log(e)
-           // })
+           // TO DO: sendImpression
+           API.sendImpression(mainState.gameID)
+           .catch((e)=>{
+               console.log(e)
+           })
         }
 
     },[mainState.active]);
@@ -77,28 +77,28 @@ export default ({gameID}:{gameID:string|null}) => {
     const sendEmail = ( value:string ) => {
         if(!mainState.gameID || !value ) return;
 
-        //TODO: sendLead (remove setMainState)
-        setMainState((prevState)=>({
-            ...prevState,
-            error: false,
-            loading: false,
-            success: true,
-            gameWasStarted: true,
-        }))
+        //TO DO: sendLead (remove setMainState)
+        // setMainState((prevState)=>({
+        //     ...prevState,
+        //     error: false,
+        //     loading: false,
+        //     success: true,
+        //     gameWasStarted: true,
+        // }))
 
-        // API.sendLead(mainState.gameID, value)
-        // .then(()=>{
-        //     setMainState((prevState)=>({
-        //         ...prevState,
-        //         error: false,
-        //         loading: false,
-        //         success: true,
-        //         gameWasStarted: true,
-        //     }))
-        // })
-        // .catch((e)=>{
-        //     console.log(e)
-        // })
+        API.sendLead(mainState.gameID, value)
+        .then(()=>{
+            setMainState((prevState)=>({
+                ...prevState,
+                error: false,
+                loading: false,
+                success: true,
+                gameWasStarted: true,
+            }))
+        })
+        .catch((e)=>{
+            console.log(e)
+        })
 
         // --------------------------------->
         setMainState((prevState)=>({...prevState, success: false, error:false, loading: true }))
