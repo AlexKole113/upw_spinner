@@ -116,7 +116,7 @@ export default ({gameID}:{gameID:string|null}) => {
 
     if( mainState.emailWasSent ) return null;
     return (
-        <section className={`${style.spinner} ${ ( !mainState.active ) ? style.displayNONE : '' } ${(mainState.prize?.coupon) ? style.transparentBACK : ''}`} >
+        <section className={`${style.spinner} ${ ( !mainState.active ) ? style.displayNONE : '' }`} >
             { ( mainState.prize?.coupon ) ?  <BackGround /> : '' }
             <div className={style.container}>
                 <CloseBtn action={closeAndReset} />

@@ -23,9 +23,9 @@
     z-index: 999999;
 }
 
-.transparentBACK.spinner {
-    --color-dark: transparent;
-}
+/*.transparentBACK.spinner {*/
+/*    --color-dark: transparent;*/
+/*}*/
 
 .container {
     width: 80vw;
