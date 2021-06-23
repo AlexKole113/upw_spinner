@@ -1,8 +1,8 @@
 import ReactDOM from 'react-dom';
 import App from './components/App'
 
-const EMBED_SRC = 'dist/assets/js/main.js?gameID=';
-const CSS_URL   = 'dist/assets/css/main.css';
+const EMBED_SRC = 'https://cranky-bartik-376bfe.netlify.app/dist/assets/js/main.js?gameID=';
+const CSS_URL   = 'https://cranky-bartik-376bfe.netlify.app/dist/assets/css/main.css';
 
 
 // create root
