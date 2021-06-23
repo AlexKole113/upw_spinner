@@ -20,6 +20,7 @@
     background: var(--color-dark);
     font-family: var(--font-primary);
     overflow: hidden;
+    z-index: 999999;
 }
 
 .transparentBACK.spinner {
