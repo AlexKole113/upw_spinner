@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
 import App from './components/App'
 
-const EMBED_SRC = 'https://www.google.com/';
+const EMBED_SRC = 'dist/assets/js/main.js?gameID=';
 const CSS_URL   = 'dist/assets/css/main.css';
 
 
