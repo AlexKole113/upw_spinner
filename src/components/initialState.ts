@@ -1,5 +1,6 @@
 export interface IMainState {
     gameID:string|null,
+    startButtonPosition: 'right'| 'left' | 'bottom' | null,
     active: boolean,
     attempts: number,
     prize: null| { title:string, coupon: string, [key:string]:any },
@@ -15,6 +16,7 @@ export interface IMainState {
 const getInitialState = (gameID:string|null , numberAttempts:number) :IMainState => (
     {
         gameID,
+        startButtonPosition: null,
         active: false,
         attempts: numberAttempts,
         prize: null,

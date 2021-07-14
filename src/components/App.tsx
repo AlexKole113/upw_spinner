@@ -13,6 +13,8 @@ import {ISpinnerMap, setGameMap} from "@/components/GameLogic/mapOfSpinnerSector
 import ErrorMessage from "@/components/ErrorMessage";
 import useSpinnerGameLogic from "@/hooks/useSpinnerGameLogic";
 import TryAgain from "@/components/TryAgain";
+import StartBtn from "@/components/StartBtn";
+import getFromApiBtnPosition from "@/utils/getFromApiBtnPosition";
 
 
 export default ({gameID}:{gameID:string|null}) => {
@@ -21,30 +23,19 @@ export default ({gameID}:{gameID:string|null}) => {
     const [ mainState, setMainState ]   = useState( getInitialState( gameID , numberAttempts ) );
     const [ spinnerMap, setSpinnerMap ] = useState<ISpinnerMap[]|null>(null);
 
-    const spinnerPopUpStarter = ( e:MouseEvent ) => {
-        if ( e.relatedTarget === null ) setMainState((prevState)=>({...prevState, active: true}))
-    }
-
     // add EventListener which start Game AND get spinnerMap
     useEffect(() => {
         API.getGameData( gameID )
-        .then( r => r.json() )
         .then( data => {
             setSpinnerMap(() => setGameMap( data ));
-            window.addEventListener('mouseout', spinnerPopUpStarter )
+            setMainState((prevState)=>({ ...prevState, ...getFromApiBtnPosition(data)}));
         })
         .catch( ( error ) => {
-
                 setMainState((prevState) => ({
                     ...prevState,
                     error: error.message
                 }))
             })
-        return(
-            () => {
-                window.removeEventListener('mouseout', spinnerPopUpStarter );
-            }
-        )
     },[]);
 
     //Send Impression after show spinner
@@ -63,7 +54,7 @@ export default ({gameID}:{gameID:string|null}) => {
 
     //Reset Game and Close PopUp
     const closeAndReset = () => {
-        setMainState(() => ({...getInitialState(gameID,numberAttempts)}))
+        setMainState((prevState) => ({...getInitialState(gameID,numberAttempts), startButtonPosition: prevState.startButtonPosition }))
     }
 
     const setEmailWasSend = () => {
@@ -77,15 +68,6 @@ export default ({gameID}:{gameID:string|null}) => {
     const sendEmail = ( value:string ) => {
         if(!mainState.gameID || !value ) return;
         setMainState((prevState)=>({...prevState, success: false, error:false, loading: true }))
-
-        //TO DO: sendLead (remove setMainState)
-        // setMainState((prevState)=>({
-        //     ...prevState,
-        //     error: false,
-        //     loading: false,
-        //     success: true,
-        //     gameWasStarted: true,
-        // }))
 
         API.sendLead(mainState.gameID, value)
         .then(()=>{
@@ -116,25 +98,28 @@ export default ({gameID}:{gameID:string|null}) => {
 
     if( mainState.emailWasSent ) return null;
     return (
-        <section className={`${style.spinner} ${ ( !mainState.active ) ? style.displayNONE : '' }`} >
-            { ( mainState.prize?.coupon ) ?  <BackGround /> : '' }
-            <div className={style.container}>
-                <CloseBtn action={closeAndReset} />
-                {  mainState.error ? <ErrorMessage text={mainState.error} /> :
-                    (
-                        <>
-                            <Spinner rotate={mainState.angle} />
-                            {
-                                 !mainState.gameWasStarted  ?
-                                     ( !mainState.prize  ? <SpinnerCenterGroup appState={mainState} action={sendEmail} /> : mainState.prize.coupon  ?
-                                                                                                                                                        <Congratulate action={setEmailWasSend} appState={mainState} delayToShow={500} />  : <TryAgain action={tryAgain} appState={mainState} delayToShow={400} /> ) : ""
-                            }
+        <>
+            {(!mainState.active && mainState.startButtonPosition ) && <StartBtn position={mainState.startButtonPosition} startAction={()=>{setMainState((prevState)=>({...prevState, active: true})) }} />}
+            <section className={`${style.spinner} ${ ( !mainState.active ) ? style.displayNONE : '' }`} >
+                { ( mainState.prize?.coupon ) ?  <BackGround /> : '' }
+                <div className={style.container}>
+                    <CloseBtn action={closeAndReset} />
+                    {  mainState.error ? <ErrorMessage text={mainState.error} /> :
+                        (
+                            <>
+                                <Spinner rotate={mainState.angle} />
+                                {
+                                     !mainState.gameWasStarted  ?
+                                         ( !mainState.prize  ? <SpinnerCenterGroup appState={mainState} action={sendEmail} /> : mainState.prize.coupon  ?
+                                                                                                                                                            <Congratulate action={setEmailWasSend} appState={mainState} delayToShow={500} />  : <TryAgain action={tryAgain} appState={mainState} delayToShow={400} /> ) : ""
+                                }
 
-                            <Arrow gameState={mainState} />
-                        </>
-                    )
-                }
-            </div>
-        </section>
+                                <Arrow gameState={mainState} />
+                            </>
+                        )
+                    }
+                </div>
+            </section>
+        </>
     );
 }
