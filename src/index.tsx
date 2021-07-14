@@ -3,42 +3,39 @@ import App from './components/App'
 
 declare const window: any;
 
-
-window.SPINNER_MAP = {
-    "settings": [
-        {
-            "text": '50% Discount',
-            "coupon": '50% OFF'
-        },
-        {
-            "text": '10% Discount',
-            "coupon": '10% OFF'
-        },
-        {
-            "text": 'No Luck',
-            "coupon": ''
-        },
-        {
-            "text": '$25 Cash',
-            "coupon": '25CASH'
-        },
-        {
-            "text": 'No Luck',
-            "coupon": ''
-        },
-        {
-            "text": '$10 Cash',
-            "coupon": '10CASH'
-        }
-    ],
-    "labelButton": true,
-    "position": "right"
+//test
+if(!window.SPINNER_MAP){
+    window.SPINNER_MAP = {
+        "settings": [
+            {
+                "text": '50% Discount',
+                "coupon": '50% OFF'
+            },
+            {
+                "text": '10% Discount',
+                "coupon": '10% OFF'
+            },
+            {
+                "text": 'No Luck',
+                "coupon": ''
+            },
+            {
+                "text": '$25 Cash',
+                "coupon": '25CASH'
+            },
+            {
+                "text": 'No Luck',
+                "coupon": ''
+            },
+            {
+                "text": '$10 Cash',
+                "coupon": '10CASH'
+            }
+        ],
+        "labelButton": true,
+        "position": "right"
+    }
 }
-
-
-
-
-
 window.EMBED_SPINNER_PATH = 'https://cranky-bartik-376bfe.netlify.app';
 // const EMBED_SRC =  window.EMBED_SPINNER_PATH + `/reel/assets/js/main.js?gameID=`;
 const CSS_URL   =  window.EMBED_SPINNER_PATH + `/dist/assets/css/main.css`;

@@ -9,6 +9,7 @@
             -90deg
     );
     transform-origin: 100% 100%;
+    animation: attention 2s infinite;
 }
 .container:not(.left):not(.right):hover .button{
     transform: translateY(0rem);
@@ -88,5 +89,24 @@
     .container.bottom {
         bottom: -20px;
         right: 5%;
+    }
+}
+
+
+@keyframes attention {
+    0%{
+       transform: translateX(0);
+    }
+    5% {
+        transform: translateX(10px);
+    }
+    10% {
+        transform: translateX(-10px);
+    }
+    15%{
+        transform: translateX(10px);
+    }
+    20% {
+        transform: translateX(0);
     }
 }
